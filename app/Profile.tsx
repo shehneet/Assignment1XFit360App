@@ -6,7 +6,7 @@ const ProfileScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileHeader}>
         <Image
-          source={require('../assets/avatar.png')} // Replace with your own avatar image
+          source={{ uri: 'https://ui-avatars.com/api/?name=Henry+Mbuthia&background=random' }}
           style={styles.avatar}
         />
         <Text style={styles.name}>Henry Mbuthia</Text>

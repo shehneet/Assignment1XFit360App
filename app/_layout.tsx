@@ -1,5 +1,6 @@
 import { Slot } from 'expo-router';
 import { ThemeProvider, DefaultTheme } from '@react-navigation/native';
+// @ts-ignore
 import { StatusBar } from 'expo-status-bar';
 
 export default function RootLayout() {
