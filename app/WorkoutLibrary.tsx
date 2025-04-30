@@ -25,7 +25,6 @@ const WorkoutLibraryScreen: React.FC<Props> = ({ navigation }) => {
       style={[styles.card, { backgroundColor: item.color }]}
       onPress={() => navigation.navigate('WorkoutDetails', { workout: item })}
     >
-      <Image source={item.image} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.category}>{item.category}</Text>
     </TouchableOpacity>
@@ -35,11 +34,16 @@ const WorkoutLibraryScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>Workout Library</Text>
       <FlatList
-        data={workouts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+  data={workouts} 
+  renderItem={({ item }) => (
+    <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.category}>{item.category}</Text>
+    </TouchableOpacity>
+  )}
+  keyExtractor={(item) => item.id}
+/>
+
     </View>
   );
 };

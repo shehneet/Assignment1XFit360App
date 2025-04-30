@@ -1,18 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  deleteUser 
-} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
 
-// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBdxqCXukOhdktog5pFLXNRuIWcRXiOETc",
   authDomain: "xfit360-cdd96.firebaseapp.com",
   projectId: "xfit360-cdd96",
-  storageBucket: "xfit360-cdd96.appspot.com", // small correction here (was wrong earlier)
+  storageBucket: "xfit360-cdd96.appspot.com", 
   messagingSenderId: "1033253813884",
   appId: "1:1033253813884:web:3358e2d8618cf0fb5413f9",
   measurementId: "G-QMMC4XWCXL",
@@ -47,4 +40,4 @@ export async function deleteCurrentUser() {
 }
 
 // Export the firebase app and auth instance
-export { app, auth };
+export { app, auth, firebaseConfig };

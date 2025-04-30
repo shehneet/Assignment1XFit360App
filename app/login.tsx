@@ -7,14 +7,11 @@ import { useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
 
-import '../..firebase.js';
+import { firebaseConfig } from '../firebase';
 
-const {firebaseConfig} = require('../..firebase.js');
-
-
-// Initialize Firebase once using imported config
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
