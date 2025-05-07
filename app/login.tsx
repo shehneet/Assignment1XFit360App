@@ -2,16 +2,22 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { View, TextInput, Button, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 
-
-
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
 
-import { firebaseConfig } from '../firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdxqCXukOhdktog5pFLXNRuIWcRXiOETc",
+  authDomain: "xfit360-cdd96.firebaseapp.com",
+  projectId: "xfit360-cdd96",
+  storageBucket: "xfit360-cdd96.appspot.com", 
+  messagingSenderId: "1033253813884",
+  appId: "1:1033253813884:web:3358e2d8618cf0fb5413f9",
+  measurementId: "G-QMMC4XWCXL",
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -136,3 +142,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 });
+function getReactNativePersistence(AsyncStorage: any) {
+  throw new Error('Function not implemented.');
+}
+

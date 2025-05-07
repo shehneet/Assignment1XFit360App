@@ -15,9 +15,6 @@
     },
     "android": {},
     "web": {},
-    "plugins": ["expo-router"],
-    "experiments": {
-      "newArchEnabled": true
-    }
+    "plugins": ["expo-router"]
   }
 }

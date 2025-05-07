@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
+import { getAuth, getReactNativePersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdxqCXukOhdktog5pFLXNRuIWcRXiOETc",
