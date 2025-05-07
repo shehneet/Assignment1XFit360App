@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, getReactNativePersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -12,15 +13,39 @@ const firebaseConfig = {
   measurementId: "G-QMMC4XWCXL",
 };
 
+export async function getUserProfile(uid) {
+  const userRef = doc(db, 'users', uid);
+  const snapshot = await getDoc(userRef);
+  if (snapshot.exists()) {
+    return snapshot.data();
+  } else {
+    return null;
+  }
+}
+
+export async function updateUserProfile(uid, data) {
+  const userRef = doc(db, 'users', uid);
+  await updateDoc(userRef, data);
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Register a new user
 export async function registerUser(email, password) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   return userCredential.user;
+
+  await setDoc(doc(db, 'users', user.uid), {
+    email: user.email,
+    createdAt: new Date().toISOString(),
+  });
+
+  return user;
 }
+
 
 // Login an existing user
 export async function loginUser(email, password) {
@@ -41,4 +66,4 @@ export async function deleteCurrentUser() {
 }
 
 // Export the firebase app and auth instance
-export { app, auth, firebaseConfig };
+export { app, auth, db, firebaseConfig };
