@@ -8,7 +8,6 @@
     "scheme": "xfit360",
     "platforms": ["android", "web"],
     "userInterfaceStyle": "light",
-    "jsEngine": "hermes",
     "assetBundlePatterns": ["**/*"],
     "updates": {
       "fallbackToCacheTimeout": 0

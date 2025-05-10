@@ -1,72 +1,63 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useRouter } from 'expo-router';
 
-// Define the stack parameter list (add all screens this one can navigate to)
-type RootStackParamList = {
-    WorkoutLibrary: undefined;
-    Progress: undefined;
-    Maps: undefined;
-    Profile: undefined;
-  };
-  
-  // Apply type to props
-  type Props = NativeStackScreenProps<RootStackParamList>;
-  
-  const HomeDashboardScreen: React.FC<Props> = ({ navigation }) => {
-    return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Welcome Back!</Text>
-  
-        <View style={styles.widget}>
-          <Text style={styles.widgetTitle}>Weekly Workout Summary</Text>
-          <Text style={styles.widgetValue}>4 sessions • 2 hrs 15 mins</Text>
-        </View>
-  
-        <View style={styles.widget}>
-          <Text style={styles.widgetTitle}>Calories Burned</Text>
-          <Text style={styles.widgetValue}>1,340 kcal</Text>
-        </View>
-  
-        <View style={styles.widget}>
-          <Text style={styles.widgetTitle}>AI Tip of the Day</Text>
-          <Text style={styles.widgetValue}>Try adding mobility work before your HIIT sessions!</Text>
-        </View>
-  
-        <Text style={styles.section}>Quick Access</Text>
-  
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('WorkoutLibrary')}
-        >
-          <Text style={styles.buttonText}>Go to Workout Library</Text>
-        </TouchableOpacity>
-  
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Progress')}
-        >
-          <Text style={styles.buttonText}>View Progress</Text>
-        </TouchableOpacity>
-  
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Maps')}
-        >
-          <Text style={styles.buttonText}>Open Map Tracker</Text>
-        </TouchableOpacity>
-  
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Profile')}
-        >
-          <Text style={styles.buttonText}>My Profile</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  };
-  
-  export default HomeDashboardScreen;
+const HomeDashboardScreen = () => {
+  const router = useRouter();
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Welcome Back!</Text>
+
+      <View style={styles.widget}>
+        <Text style={styles.widgetTitle}>Weekly Workout Summary</Text>
+        <Text style={styles.widgetValue}>4 sessions • 2 hrs 15 mins</Text>
+      </View>
+
+      <View style={styles.widget}>
+        <Text style={styles.widgetTitle}>Calories Burned</Text>
+        <Text style={styles.widgetValue}>1,340 kcal</Text>
+      </View>
+
+      <View style={styles.widget}>
+        <Text style={styles.widgetTitle}>AI Tip of the Day</Text>
+        <Text style={styles.widgetValue}>Try adding mobility work before your HIIT sessions!</Text>
+      </View>
+
+      <Text style={styles.section}>Quick Access</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push('/WorkoutLibrary')}
+      >
+        <Text style={styles.buttonText}>Go to Workout Library</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push('/ProgressTracker')}
+      >
+        <Text style={styles.buttonText}>View Progress</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push('/Maps')}
+      >
+        <Text style={styles.buttonText}>Open Map Tracker</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push('/Profile')}
+      >
+        <Text style={styles.buttonText}>My Profile</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+};
+
+export default HomeDashboardScreen;
 
 const styles = StyleSheet.create({
   container: {
