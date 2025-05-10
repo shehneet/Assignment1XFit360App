@@ -5,8 +5,12 @@ import {
 } from 'react-native';
 import { auth, db, updateUserProfile } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'expo-router';
 
 const ProfileScreen = () => {
+  const router = useRouter();
+
   const [profile, setProfile] = useState<{
     email: string;
     name?: string;
@@ -27,7 +31,7 @@ const ProfileScreen = () => {
       try {
         const user = auth.currentUser;
         if (!user) {
-          setLoading(false); 
+          setLoading(false);
           return;
         }
 
@@ -43,7 +47,7 @@ const ProfileScreen = () => {
             email: user.email ?? '',
           };
 
-          await updateUserProfile(user.uid, newUserData); // Create new profile
+          await updateUserProfile(user.uid, newUserData);
           setProfile(newUserData);
           setNameInput(newUserData.name);
           setBioInput('');
@@ -103,6 +107,30 @@ const ProfileScreen = () => {
     }
   };
 
+  const handleLogout = () => {
+    Alert.alert(
+      'Confirm Sign Out',
+      'Are you sure you want to log out?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Sign Out',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await signOut(auth);
+              router.replace('/login');
+            } catch (error) {
+              Alert.alert('Error', 'Failed to sign out.');
+              console.error(error);
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -137,6 +165,9 @@ const ProfileScreen = () => {
             <TouchableOpacity onPress={() => setIsEditing(true)}><Text style={styles.editText}>Edit Profile</Text></TouchableOpacity>
           </>
         )}
+        <TouchableOpacity onPress={handleLogout}>
+          <Text style={styles.logoutText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -155,4 +186,5 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, borderColor: '#ccc', padding: 10, width: '90%', borderRadius: 8, marginTop: 8, backgroundColor: '#fff' },
   editText: { color: '#007BFF', marginTop: 8 },
   saveText: { color: 'green', marginTop: 8, fontWeight: 'bold' },
+  logoutText: { color: 'red', marginTop: 20, fontWeight: '600' },
 });
