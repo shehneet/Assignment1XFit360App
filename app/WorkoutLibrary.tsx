@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator,} from 'react-native';
-import { fetchWorkouts } from '../firestoreWorkouts'; 
+import {
+  View, Text, FlatList, StyleSheet,
+  TouchableOpacity, ActivityIndicator,
+} from 'react-native';
+import { fetchWorkouts } from '../firestoreWorkouts'; // Import Firestore fetch function
 
+// Define the shape of a Workout object
 type Workout = {
   id: string;
   title: string;
@@ -12,24 +16,27 @@ type Workout = {
 };
 
 const WorkoutLibraryScreen = () => {
+  // Local state to hold workouts and loading indicator
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch workouts from Firestore on component mount
   useEffect(() => {
     const loadWorkouts = async () => {
       try {
-        const data = await fetchWorkouts();
-        setWorkouts(data as Workout[]);
+        const data = await fetchWorkouts(); // Async call to Firestore
+        setWorkouts(data as Workout[]); // Store results in state
       } catch (error) {
         console.error('Failed to fetch workouts:', error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Stop loading spinner
       }
     };
 
-    loadWorkouts();
+    loadWorkouts(); // Trigger workout loading
   }, []);
 
+  // Show loading spinner while data is being fetched
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -39,20 +46,24 @@ const WorkoutLibraryScreen = () => {
     );
   }
 
+  // Render the list of workouts once data is ready
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Workout Library</Text>
+
       <FlatList
-        data={workouts}
+        data={workouts} // Pass workouts to FlatList
         renderItem={({ item }) => (
-          <TouchableOpacity style={[styles.card, { backgroundColor: item.color }]}>
+          <TouchableOpacity
+            style={[styles.card, { backgroundColor: item.color }]}
+          >
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.meta}>
               {item.category} • {item.duration} • {item.difficulty}
             </Text>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id} // Unique key for each workout
       />
     </View>
   );
@@ -60,6 +71,7 @@ const WorkoutLibraryScreen = () => {
 
 export default WorkoutLibraryScreen;
 
+// Style definitions
 const styles = StyleSheet.create({
   container: {
     flex: 1,
