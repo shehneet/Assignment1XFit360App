@@ -14,9 +14,13 @@ type MarkerItem = {
 };
 
 const MapsScreen: React.FC = () => {
+  // State to hold user's current location
   const [location, setLocation] = useState<Location.LocationObjectCoords | null>(null);
+
+  // State to handle loading indicator
   const [loading, setLoading] = useState(true);
 
+  // Predefined markers (fitness places)
   const markers: MarkerItem[] = [
     {
       id: '1',
@@ -38,51 +42,57 @@ const MapsScreen: React.FC = () => {
     },
   ];
 
+  // UseEffect hook to request location permissions and get current location
   useEffect(() => {
     (async () => {
+      // Request permission to access user's location
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission Denied', 'Location access is required to view the map');
-        setLoading(false);
+        setLoading(false); // Stop loading state if permission is denied
         return;
       }
 
+      // Get the current position (latitude and longitude)
       const currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation.coords);
-      setLoading(false);
+      setLocation(currentLocation.coords); // Set location to the user's coordinates
+      setLoading(false); // Stop the loading indicator after getting location
     })();
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on component mount
 
+  // If loading or no location available, show loading indicator
   if (loading || !location) {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#007BFF" />
+        <ActivityIndicator size="large" color="#007BFF" /> {/* Spinner while loading */}
         <Text style={{ marginTop: 10 }}>Fetching your location...</Text>
       </View>
     );
   }
 
+  // Set initial region based on the user's current location
   const initialRegion: Region = {
     latitude: location.latitude,
     longitude: location.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitudeDelta: 0.01, // Zoom level
+    longitudeDelta: 0.01, // Zoom level
   };
 
   return (
     <MapView
-      style={styles.map}
-      provider={PROVIDER_GOOGLE}
-      region={initialRegion}
-      showsUserLocation
-      showsMyLocationButton
+      style={styles.map} // Apply the map style
+      provider={PROVIDER_GOOGLE} // Use Google Maps provider
+      region={initialRegion} // Set initial region to user's location
+      showsUserLocation // Show user's current location on the map
+      showsMyLocationButton // Show a button to center map to user location
     >
+      {/* Render markers for fitness places */}
       {markers.map((marker) => (
         <Marker
-          key={marker.id}
-          coordinate={marker.coordinate}
-          title={marker.title}
-          description={marker.description}
+          key={marker.id} // Unique key for each marker
+          coordinate={marker.coordinate} // Set the position of the marker
+          title={marker.title} // Title of the marker (appears on tap)
+          description={marker.description} // Description of the marker
         />
       ))}
     </MapView>
@@ -93,12 +103,12 @@ export default MapsScreen;
 
 const styles = StyleSheet.create({
   map: {
-    flex: 1,
+    flex: 1, // Makes the map take full available space
   },
   loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F4F6F8',
+    flex: 1, // Full screen loader
+    justifyContent: 'center', // Centers the loader
+    alignItems: 'center', // Centers the loader
+    backgroundColor: '#F4F6F8', // Light background color
   },
 });
