@@ -3,12 +3,14 @@ import { View, TextInput, Button, Text, StyleSheet, SafeAreaView } from 'react-n
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 
+//firebase setup
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from 'firebase/auth';
 
 
 import { firebaseConfig } from '../firebase';
 
+//initialize firebase app and auth
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
