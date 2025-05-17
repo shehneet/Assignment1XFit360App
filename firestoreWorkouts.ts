@@ -31,18 +31,3 @@ export const submitFeedback = async (id: string, feedback: string) => {
   });
 };
 
-// Increment the 'likes' field for a specific workout
-export const likeWorkout = async (id: string) => {
-  const workoutRef = doc(db, 'workouts', id);
-  await updateDoc(workoutRef, {
-    likes: increment(1),
-  });
-};
-
-// Append feedback text to the 'feedback' array field
-export const submitFeedback = async (id: string, feedback: string) => {
-  const workoutRef = doc(db, 'workouts', id);
-  await updateDoc(workoutRef, {
-    feedback: arrayUnion(feedback),
-  });
-};
