@@ -7,7 +7,7 @@ const workoutCollection = collection(db, 'workouts');
 // Fetch all workouts from Firestore
 export const fetchWorkouts = async () => {
   const snapshot = await getDocs(workoutCollection);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return snapshot.docs.map((doc: { id: any; data: () => any; }) => ({ id: doc.id, ...doc.data() }));
 };
 
 // Add a new workout (e.g. during seeding)
