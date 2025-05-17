@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import {
+  View, Text, StyleSheet, ActivityIndicator, Alert, ScrollView
+} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 
@@ -11,6 +13,8 @@ type MarkerItem = {
     latitude: number;
     longitude: number;
   };
+  rating: number;
+  reviews: string[];
 };
 
 const MapsScreen: React.FC = () => {
@@ -19,6 +23,7 @@ const MapsScreen: React.FC = () => {
 
   // State to handle loading indicator
   const [loading, setLoading] = useState(true);
+  const [selectedMarker, setSelectedMarker] = useState<MarkerItem | null>(null);
 
   // Predefined markers (fitness places)
   const markers: MarkerItem[] = [
@@ -26,19 +31,23 @@ const MapsScreen: React.FC = () => {
       id: '1',
       title: 'La Trobe Gym',
       description: 'Main campus gym with weights & cardio machines',
-      coordinate: {
-        latitude: -37.7215,
-        longitude: 145.047,
-      },
+      coordinate: { latitude: -37.7215, longitude: 145.047 },
+      rating: 4.5,
+      reviews: [
+        'Great equipment and helpful staff.',
+        'Busy during peak hours, but very clean.',
+      ],
     },
     {
       id: '2',
       title: 'Campus Oval',
       description: 'Perfect for running laps and HIIT',
-      coordinate: {
-        latitude: -37.7209,
-        longitude: 145.0485,
-      },
+      coordinate: { latitude: -37.7209, longitude: 145.0485 },
+      rating: 4.8,
+      reviews: [
+        'Peaceful and spacious.',
+        'Excellent for morning runs!',
+      ],
     },
   ];
 
@@ -80,19 +89,18 @@ const MapsScreen: React.FC = () => {
 
   return (
     <MapView
-      style={styles.map} // Apply the map style
-      provider={PROVIDER_GOOGLE} // Use Google Maps provider
-      region={initialRegion} // Set initial region to user's location
-      showsUserLocation // Show user's current location on the map
-      showsMyLocationButton // Show a button to center map to user location
+      style={styles.map}
+      provider={PROVIDER_GOOGLE}
+      region={initialRegion}
+      showsUserLocation
+      showsMyLocationButton
     >
-      {/* Render markers for fitness places */}
       {markers.map((marker) => (
         <Marker
-          key={marker.id} // Unique key for each marker
-          coordinate={marker.coordinate} // Set the position of the marker
-          title={marker.title} // Title of the marker (appears on tap)
-          description={marker.description} // Description of the marker
+          key={marker.id}
+          coordinate={marker.coordinate}
+          title={marker.title}
+          description={marker.description}
         />
       ))}
     </MapView>
@@ -110,5 +118,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Centers the loader
     alignItems: 'center', // Centers the loader
     backgroundColor: '#F4F6F8', // Light background color
+  },
+  reviewCard: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: -2 },
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  reviewTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#222',
+  },
+  reviewDesc: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 4,
+  },
+  rating: {
+    fontSize: 16,
+    color: '#FFB800',
+    marginBottom: 8,
+  },
+  reviewHeader: {
+    fontWeight: '600',
+    marginTop: 10,
+    marginBottom: 4,
+    color: '#333',
+  },
+  reviewText: {
+    fontSize: 14,
+    color: '#444',
+    marginBottom: 4,
   },
 });
